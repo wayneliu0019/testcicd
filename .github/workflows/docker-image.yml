@@ -16,6 +16,8 @@ jobs:
         
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: exec build and push
         run: | 
           docker login  -u wayne0019 -p zjyt0019
           docker build -t wayne0019/githubng:${{ env.TAG }}
