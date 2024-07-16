@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract version tag
+        id: extract_tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        run: | 
+          docker login  -u wayne0019 -p zjyt0019
+          docker build -t wayne0019/githubng:${{ env.TAG }}
+          docker push wayne0019/githubng:${{ env.TAG }}
+
