@@ -37,6 +37,7 @@ jobs:
             echo "latest" > tag.txt
           else
             echo "${GITHUB_REF_NAME}" > tag.txt
+          fi
       shell: bash
         
     - name: Extract Docker metadata (tags, labels)
