@@ -7,7 +7,7 @@ on:
 
  # Scheduled build at 2:00 AM every day
   schedule:
-     - cron: "0 2 * * *"
+     - cron: "10 11 * * *"
 
 jobs:
   build:
