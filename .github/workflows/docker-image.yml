@@ -7,7 +7,7 @@ on:
 
  # Scheduled build at 2:00 AM every day
   schedule:
-     - cron: "0 4 * * *"
+     - cron: "10 0 * * *"
 
 jobs:
   build:
@@ -37,15 +37,9 @@ jobs:
             echo "latest" > tag.txt
           else
             echo "${GITHUB_REF_NAME}" > tag.txt
+            echo "latest" >> tag.txt
           fi
       shell: bash
-        
-    - name: Extract Docker metadata (tags, labels)
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: |
-          wayne0019/testcicd
           
     - name: Build and push Docker image
       uses: docker/build-push-action@v6
@@ -54,5 +48,6 @@ jobs:
         file: ./Dockerfile
         push: true
         provenance: false
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: |
+             wayne0019/testcicd:$(cat tag.txt)
         platforms: linux/amd64,linux/arm64
