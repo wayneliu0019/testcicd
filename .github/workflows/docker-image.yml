@@ -34,12 +34,10 @@ jobs:
       id: tag
       run: |
           if [ "${{ github.event_name }}" == "schedule" ]; then
-            echo "latest" > tag.txt
+            echo "TAGS=wayne0019/testcicd:latest" >> $GITHUB_ENV
           else
-            echo "${GITHUB_REF_NAME}" > tag.txt
-            echo "latest" >> tag.txt
+            echo "TAGS=wayne0019/testcicd:${GITHUB_REF_NAME},wayne0019/testcicd:latest" >> $GITHUB_ENV
           fi
-      shell: bash
           
     - name: Build and push Docker image
       uses: docker/build-push-action@v6
@@ -48,6 +46,5 @@ jobs:
         file: ./Dockerfile
         push: true
         provenance: false
-        tags: |
-             wayne0019/testcicd:$(cat tag.txt)
+        tags: ${{ env.TAGS }}
         platforms: linux/amd64,linux/arm64
